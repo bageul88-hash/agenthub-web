@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Megaphone,
   PenTool,
@@ -40,11 +41,12 @@ export function Categories() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {categories.map((cat) => {
-            const Icon = iconMap[cat.iconName];
+            const Icon = iconMap[cat.icon];
             return (
-              <button
-                key={cat.id}
-                className="group flex flex-col items-center gap-3 p-5 rounded-xl border border-line bg-surface hover:border-primary hover:shadow-[0_4px_16px_rgba(127,119,221,0.12)] transition-all duration-200 text-center cursor-pointer"
+              <Link
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
+                className="group flex flex-col items-center gap-3 p-5 rounded-xl border border-line bg-surface hover:border-primary hover:shadow-[0_4px_16px_rgba(127,119,221,0.12)] transition-all duration-200 text-center"
                 aria-label={`${cat.name} 카테고리 — 에이전트 ${cat.agentCount}개`}
               >
                 <div className="w-12 h-12 rounded-full bg-primary-light flex items-center justify-center group-hover:bg-primary transition-colors duration-200">
@@ -59,7 +61,7 @@ export function Categories() {
                   <p className="text-sm font-semibold text-ink mb-0.5">{cat.name}</p>
                   <p className="text-xs text-ink-sub">{cat.agentCount}개 에이전트</p>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>
