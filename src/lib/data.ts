@@ -879,3 +879,136 @@ export const creatorContent = {
     },
   ] satisfies CreatorFaqItem[],
 };
+
+// ────────────────────────────────────────────
+// Contest page content — Build Challenge 2026
+// ────────────────────────────────────────────
+
+export interface ContestPrize {
+  rank: string;
+  label: string;
+  amount: string;
+  perks: string[];
+  highlight?: boolean;
+}
+
+export interface ContestTimelineItem {
+  date: string;
+  label: string;
+  text: string;
+  done?: boolean;
+}
+
+export interface ContestCriterion {
+  title: string;
+  weight: number;
+  text: string;
+}
+
+export interface ContestFaqItem {
+  q: string;
+  a: string;
+}
+
+export const contestContent = {
+  title: "Build Challenge 2026",
+  theme: "당신의 첫 AI 에이전트를 만들어보세요",
+  period: "2026.07.01 ~ 2026.08.31",
+  deadline: "2026.08.31",
+  totalPrize: "₩10,000,000",
+
+  prizes: [
+    {
+      rank: "🥇",
+      label: "대상",
+      amount: "₩5,000,000",
+      perks: ["마켓 메인 6개월 우선 노출", "정산 비율 75% 우대", "AgentHub 공식 파트너 뱃지"],
+      highlight: true,
+    },
+    {
+      rank: "🥈",
+      label: "우수상",
+      amount: "₩2,000,000",
+      perks: ["마켓 Featured 3개월 노출", "정산 비율 72% 우대", "AgentHub 공식 인증서"],
+      highlight: false,
+    },
+    {
+      rank: "🥉",
+      label: "인기상",
+      amount: "₩1,000,000",
+      perks: ["마켓 추천 1개월 노출", "AgentHub 공식 굿즈", "뉴스레터 크리에이터 소개"],
+      highlight: false,
+    },
+  ] satisfies ContestPrize[],
+
+  timeline: [
+    {
+      date: "2026.07.01",
+      label: "접수 시작",
+      text: "참가 신청서 제출 가능. AgentHub 대시보드에서 에이전트 등록 시작.",
+      done: true,
+    },
+    {
+      date: "2026.08.31",
+      label: "접수 마감",
+      text: "참가 신청 및 에이전트 최종 제출 마감. 이후 수정 불가.",
+      done: false,
+    },
+    {
+      date: "2026.09.01 ~ 09.14",
+      label: "심사 진행",
+      text: "AgentHub 심사위원단이 완성도·실용성·창의성·사용자 평가 기준으로 심사.",
+      done: false,
+    },
+    {
+      date: "2026.09.20",
+      label: "수상 발표",
+      text: "공식 홈페이지·이메일·SNS를 통해 수상자 발표. 시상금은 발표 후 5영업일 내 지급.",
+      done: false,
+    },
+  ] satisfies ContestTimelineItem[],
+
+  criteria: [
+    {
+      title: "완성도",
+      weight: 30,
+      text: "에이전트가 설명한 기능을 안정적으로 실행하며 오류 없이 동작하는가.",
+    },
+    {
+      title: "실용성",
+      weight: 30,
+      text: "실제 업무나 일상에서 바로 활용할 수 있는 명확한 사용 사례가 있는가.",
+    },
+    {
+      title: "창의성",
+      weight: 25,
+      text: "기존 에이전트와 차별화된 독창적인 아이디어나 접근 방식을 담고 있는가.",
+    },
+    {
+      title: "사용자 평가",
+      weight: 15,
+      text: "베타 테스터 피드백 점수와 초기 구독자 반응을 종합해 반영.",
+    },
+  ] satisfies ContestCriterion[],
+
+  winnerAgentIds: ["37", "12", "22"],
+
+  faqs: [
+    {
+      q: "참가 자격에 제한이 있나요?",
+      a: "없습니다. 나이·경력·코딩 여부 상관없이 누구나 참가할 수 있어요. 개인·팀(최대 3인) 모두 가능합니다.",
+    },
+    {
+      q: "에이전트는 어떻게 제출하나요?",
+      a: "신청서 제출 후 승인 이메일을 받으시면, AgentHub 크리에이터 대시보드에서 에이전트를 등록·제출할 수 있어요. 마감일 전까지 수정이 가능합니다.",
+    },
+    {
+      q: "이미 마켓에 출시된 에이전트도 참가 가능한가요?",
+      a: "네, 기출시 에이전트도 참가 신청 가능합니다. 단, 2026년 7월 1일 이후에 주요 기능 업데이트가 있어야 참가 인정됩니다.",
+    },
+    {
+      q: "수상하지 못해도 제출한 에이전트는 마켓에 남나요?",
+      a: "물론입니다. 품질 심사를 통과한 에이전트는 수상 여부와 무관하게 AgentHub 마켓에 계속 노출되고 구독 수익을 받을 수 있어요.",
+    },
+  ] satisfies ContestFaqItem[],
+};

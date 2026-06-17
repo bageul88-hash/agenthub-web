@@ -9,7 +9,7 @@ const navLinks = [
   { label: "에이전트", href: "/#agents" },
   { label: "카테고리", href: "/#categories" },
   { label: "크리에이터", href: "/creator" },
-  { label: "콘테스트", href: "#" },
+  { label: "콘테스트", href: "/contest" },
 ];
 
 export function Navbar() {
