@@ -750,3 +750,132 @@ export function getAgentsByCategory(slug: string): Agent[] {
 export function parsePriceKRW(price: string): number {
   return parseInt(price.replace(/[^0-9]/g, ""), 10);
 }
+
+// ────────────────────────────────────────────
+// Creator page content
+// ────────────────────────────────────────────
+
+export interface CreatorBenefit {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+export interface CreatorStep {
+  no: number;
+  icon: string;
+  title: string;
+  text: string;
+}
+
+export interface CreatorStory {
+  name: string;
+  role: string;
+  income: string;
+  text: string;
+  initial: string;
+  color: string;
+}
+
+export interface CreatorFaqItem {
+  q: string;
+  a: string;
+}
+
+export const creatorContent = {
+  benefits: [
+    {
+      icon: "TrendingUp",
+      title: "패시브 수익 창출",
+      text: "한 번 만든 에이전트가 자는 동안에도 구독 수익을 만들어줘요. 별도 운영 없이 자동으로 정산됩니다.",
+    },
+    {
+      icon: "Zap",
+      title: "코딩 없이 등록 가능",
+      text: "프롬프트 작성 수준이면 충분합니다. 개발 경험이 없어도 누구나 에이전트를 등록할 수 있어요.",
+    },
+    {
+      icon: "Megaphone",
+      title: "AgentHub 마케팅 지원",
+      text: "품질 심사를 통과한 에이전트는 메인 추천·뉴스레터·이메일 캠페인에 우선 노출됩니다.",
+    },
+    {
+      icon: "Users",
+      title: "8,000명+ 사용자 접근",
+      text: "이미 활성화된 마켓에 바로 올릴 수 있어요. 직접 마케팅 없이도 즉시 노출이 시작됩니다.",
+    },
+  ] satisfies CreatorBenefit[],
+
+  steps: [
+    {
+      no: 1,
+      icon: "FileText",
+      title: "등록 신청",
+      text: "이름·이메일·에이전트 종류를 입력해 신청서를 제출합니다. (약 5분)",
+    },
+    {
+      no: 2,
+      icon: "Bot",
+      title: "에이전트 등록",
+      text: "승인 후 대시보드에서 프롬프트·설명·카테고리·가격을 설정해 업로드합니다.",
+    },
+    {
+      no: 3,
+      icon: "ShieldCheck",
+      title: "품질 심사",
+      text: "AgentHub 팀이 영업일 기준 2~3일 내 에이전트 품질·안정성을 검수합니다.",
+    },
+    {
+      no: 4,
+      icon: "CreditCard",
+      title: "판매 시작 · 월 정산",
+      text: "심사 통과 즉시 마켓에 노출됩니다. 매월 25일 판매액의 70%를 정산해드려요.",
+    },
+  ] satisfies CreatorStep[],
+
+  stories: [
+    {
+      name: "이준혁",
+      role: "마케팅 에이전트 크리에이터",
+      income: "₩720,000/월",
+      text: "퇴근 후 주말에 만든 인스타 게시물 에이전트가 입소문을 타더니 구독자가 72명 넘었어요. 직장 다니면서 월 70만 원이 들어오는 게 아직도 신기합니다.",
+      initial: "이",
+      color: "#7F77DD",
+    },
+    {
+      name: "서지원",
+      role: "개발·코딩 에이전트 크리에이터",
+      income: "₩1,340,000/월",
+      text: "GitHub PR 리뷰 에이전트 하나로 시작했는데 지금은 세 개 에이전트를 운영 중이에요. 총 구독자 합산 130명 넘어서 月 130만 원 정도 들어옵니다.",
+      initial: "서",
+      color: "#1D9E75",
+    },
+    {
+      name: "박나은",
+      role: "글쓰기·콘텐츠 에이전트 크리에이터",
+      income: "₩450,000/월",
+      text: "블로그 대행 일을 하다 만든 SEO 라이터 에이전트예요. 처음엔 제 업무 효율용이었는데 AgentHub에 올렸더니 한 달 만에 구독자 45명이 생겼어요.",
+      initial: "박",
+      color: "#EF9F27",
+    },
+  ] satisfies CreatorStory[],
+
+  faqs: [
+    {
+      q: "코딩을 전혀 몰라도 크리에이터가 될 수 있나요?",
+      a: "네, 가능합니다. AgentHub 에이전트는 프롬프트(지시문) 작성 수준으로 만들 수 있어요. 코딩 지식이 전혀 없어도 신청·등록·운영까지 모두 가능합니다.",
+    },
+    {
+      q: "수익은 어떻게, 언제 정산되나요?",
+      a: "매월 25일에 전월 판매액의 70%를 등록하신 계좌로 정산해드려요. 최소 정산 금액은 ₩10,000이며, 미달 시 다음 달로 이월됩니다.",
+    },
+    {
+      q: "에이전트 등록 수수료나 초기 비용이 있나요?",
+      a: "없습니다. 등록·심사·마켓 노출 모두 무료입니다. 판매가 발생했을 때만 수수료(30%)가 차감되는 구조라 리스크 없이 시작하실 수 있어요.",
+    },
+    {
+      q: "품질 심사에서 탈락하면 어떻게 되나요?",
+      a: "탈락 시 구체적인 개선 사항을 안내드려요. 개선 후 재신청은 횟수 제한 없이 가능합니다. 심사 기준(품질·안전성·중복 여부)은 크리에이터 가이드에서 확인하실 수 있어요.",
+    },
+  ] satisfies CreatorFaqItem[],
+};

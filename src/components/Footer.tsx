@@ -1,9 +1,10 @@
+import Link from "next/link";
 import { Bot, ExternalLink } from "lucide-react";
 
 const footerLinks = [
   { label: "이용약관", href: "#" },
   { label: "개인정보처리방침", href: "#" },
-  { label: "크리에이터 가이드", href: "#" },
+  { label: "크리에이터 가이드", href: "/creator" },
   { label: "고객센터", href: "#" },
 ];
 
@@ -13,7 +14,7 @@ export function Footer() {
       <div className="max-w-[1120px] mx-auto px-5">
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <div
               className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"
               aria-hidden="true"
@@ -21,7 +22,7 @@ export function Footer() {
               <Bot className="w-5 h-5 text-white" />
             </div>
             <span className="text-base font-bold text-ink">AgentHub</span>
-          </div>
+          </Link>
 
           {/* Links */}
           <nav
@@ -29,13 +30,13 @@ export function Footer() {
             aria-label="푸터 메뉴"
           >
             {footerLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="text-sm text-ink-sub hover:text-ink transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 export function CreatorBanner() {
@@ -23,14 +24,14 @@ export function CreatorBanner() {
           </p>
         </div>
 
-        <a
-          href="#"
+        <Link
+          href="/creator"
           className="inline-flex items-center gap-2 bg-amber text-white font-semibold rounded-lg px-7 py-3.5 hover:bg-amber/90 transition-colors duration-150 shrink-0 min-h-[44px] text-base"
           aria-label="크리에이터 등록하기"
         >
           크리에이터 등록하기
           <ArrowUpRight className="w-5 h-5" aria-hidden="true" />
-        </a>
+        </Link>
       </div>
     </section>
   );
