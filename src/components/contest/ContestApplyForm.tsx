@@ -31,6 +31,8 @@ export function ContestApplyForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   function validate(): boolean {
     const next: typeof errors = {};
@@ -44,11 +46,32 @@ export function ContestApplyForm() {
     return Object.keys(next).length === 0;
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!validate()) return;
-    // TODO: integrate with Supabase or email service (e.g. Resend)
-    console.log("콘테스트 참가 신청:", form);
-    setSubmitted(true);
+    setApiError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "contest",
+          name: form.name,
+          email: form.email,
+          content: `카테고리: ${form.category}\n아이디어: ${form.idea}`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setApiError(data.error ?? "오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setApiError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -93,6 +116,7 @@ export function ContestApplyForm() {
           placeholder="홍길동"
           className={`${inputBase} ${errors.name ? inputErr : inputOk}`}
           aria-required="true"
+          disabled={loading}
         />
         {errors.name && <p className="mt-1 text-xs text-red-500" role="alert">{errors.name}</p>}
       </div>
@@ -110,6 +134,7 @@ export function ContestApplyForm() {
           placeholder="hello@example.com"
           className={`${inputBase} ${errors.email ? inputErr : inputOk}`}
           aria-required="true"
+          disabled={loading}
         />
         {errors.email && <p className="mt-1 text-xs text-red-500" role="alert">{errors.email}</p>}
       </div>
@@ -125,6 +150,7 @@ export function ContestApplyForm() {
           onChange={(e) => update("category", e.target.value)}
           className={`${inputBase} appearance-none cursor-pointer ${errors.category ? inputErr : inputOk} ${!form.category ? "text-ink-sub" : ""}`}
           aria-required="true"
+          disabled={loading}
         >
           {CATEGORIES.map((opt) => (
             <option key={opt.value} value={opt.value} disabled={opt.value === ""}>
@@ -148,6 +174,7 @@ export function ContestApplyForm() {
           rows={4}
           className={`w-full px-4 py-3 rounded-lg border bg-surface text-ink text-sm placeholder:text-ink-sub focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none ${errors.idea ? inputErr : "border-line focus:border-primary"}`}
           aria-required="true"
+          disabled={loading}
         />
         {errors.idea && <p className="mt-1 text-xs text-red-500" role="alert">{errors.idea}</p>}
       </div>
@@ -160,6 +187,7 @@ export function ContestApplyForm() {
           onChange={(e) => update("agreed", e.target.checked)}
           className="mt-0.5 w-4 h-4 rounded border-line accent-primary cursor-pointer"
           aria-required="true"
+          disabled={loading}
         />
         <span className="text-xs text-ink-sub leading-relaxed">
           Build Challenge 2026 참가 약관 및{" "}
@@ -171,8 +199,14 @@ export function ContestApplyForm() {
       </label>
       {errors.agreed && <p className="-mt-3 text-xs text-red-500" role="alert">{errors.agreed}</p>}
 
-      <Button size="lg" onClick={handleSubmit} className="w-full mt-2">
-        참가 신청
+      {apiError && (
+        <p className="text-xs text-red-500 text-center" role="alert">
+          {apiError}
+        </p>
+      )}
+
+      <Button size="lg" onClick={handleSubmit} className="w-full mt-2" disabled={loading}>
+        {loading ? "처리 중…" : "참가 신청"}
       </Button>
     </div>
   );

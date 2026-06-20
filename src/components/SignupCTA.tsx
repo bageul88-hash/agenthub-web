@@ -9,8 +9,9 @@ export function SignupCTA() {
   const [agreed, setAgreed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("유효한 이메일 주소를 입력해주세요.");
       return;
@@ -20,9 +21,24 @@ export function SignupCTA() {
       return;
     }
     setError("");
-    // TODO: integrate with Supabase or email service (e.g. Resend)
-    console.log("사전등록:", { email });
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "signup", email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error ?? "오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -59,7 +75,6 @@ export function SignupCTA() {
               얼리버드 전용 혜택을 드려요.
             </p>
 
-            {/* Form */}
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <input
                 type="email"
@@ -70,13 +85,13 @@ export function SignupCTA() {
                 aria-label="이메일 주소"
                 aria-required="true"
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                disabled={loading}
               />
-              <Button size="md" onClick={handleSubmit} className="h-12 sm:shrink-0">
-                사전등록
+              <Button size="md" onClick={handleSubmit} className="h-12 sm:shrink-0" disabled={loading}>
+                {loading ? "처리 중…" : "사전등록"}
               </Button>
             </div>
 
-            {/* Privacy checkbox */}
             <label className="inline-flex items-start gap-2 text-left cursor-pointer">
               <input
                 type="checkbox"
@@ -84,6 +99,7 @@ export function SignupCTA() {
                 onChange={(e) => { setAgreed(e.target.checked); setError(""); }}
                 className="mt-0.5 w-4 h-4 rounded border-line accent-primary cursor-pointer"
                 aria-required="true"
+                disabled={loading}
               />
               <span className="text-xs text-ink-sub leading-relaxed">
                 개인정보 수집 및 이용에 동의합니다.{" "}

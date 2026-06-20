@@ -25,18 +25,14 @@ interface FormState {
   agreed: boolean;
 }
 
-const INITIAL: FormState = {
-  name: "",
-  email: "",
-  category: "",
-  intro: "",
-  agreed: false,
-};
+const INITIAL: FormState = { name: "", email: "", category: "", intro: "", agreed: false };
 
 export function CreatorRegisterForm() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   function validate(): boolean {
     const next: typeof errors = {};
@@ -49,11 +45,32 @@ export function CreatorRegisterForm() {
     return Object.keys(next).length === 0;
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!validate()) return;
-    // TODO: integrate with Supabase or email service (e.g. Resend)
-    console.log("크리에이터 등록 신청:", form);
-    setSubmitted(true);
+    setApiError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "creator",
+          name: form.name,
+          email: form.email,
+          content: `에이전트종류: ${form.category}\n소개: ${form.intro}`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setApiError(data.error ?? "오류가 발생했습니다. 다시 시도해주세요.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setApiError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -96,6 +113,7 @@ export function CreatorRegisterForm() {
           }`}
           aria-required="true"
           aria-describedby={errors.name ? "err-name" : undefined}
+          disabled={loading}
         />
         {errors.name && (
           <p id="err-name" className="mt-1 text-xs text-red-500" role="alert">
@@ -120,6 +138,7 @@ export function CreatorRegisterForm() {
           }`}
           aria-required="true"
           aria-describedby={errors.email ? "err-email" : undefined}
+          disabled={loading}
         />
         {errors.email && (
           <p id="err-email" className="mt-1 text-xs text-red-500" role="alert">
@@ -142,6 +161,7 @@ export function CreatorRegisterForm() {
           } ${!form.category ? "text-ink-sub" : ""}`}
           aria-required="true"
           aria-describedby={errors.category ? "err-category" : undefined}
+          disabled={loading}
         >
           {AGENT_CATEGORIES.map((opt) => (
             <option key={opt.value} value={opt.value} disabled={opt.value === ""}>
@@ -169,6 +189,7 @@ export function CreatorRegisterForm() {
           placeholder="만들고 싶은 에이전트나 본인 소개를 자유롭게 작성해주세요."
           rows={4}
           className="w-full px-4 py-3 rounded-lg border border-line bg-surface text-ink text-sm placeholder:text-ink-sub focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+          disabled={loading}
         />
       </div>
 
@@ -180,6 +201,7 @@ export function CreatorRegisterForm() {
           onChange={(e) => update("agreed", e.target.checked)}
           className="mt-0.5 w-4 h-4 rounded border-line accent-primary cursor-pointer"
           aria-required="true"
+          disabled={loading}
         />
         <span className="text-xs text-ink-sub leading-relaxed">
           개인정보 수집 및 이용에 동의합니다.{" "}
@@ -194,9 +216,14 @@ export function CreatorRegisterForm() {
         </p>
       )}
 
-      {/* Submit */}
-      <Button size="lg" onClick={handleSubmit} className="w-full mt-2">
-        신청서 제출
+      {apiError && (
+        <p className="text-xs text-red-500 text-center" role="alert">
+          {apiError}
+        </p>
+      )}
+
+      <Button size="lg" onClick={handleSubmit} className="w-full mt-2" disabled={loading}>
+        {loading ? "처리 중…" : "신청서 제출"}
       </Button>
     </div>
   );
