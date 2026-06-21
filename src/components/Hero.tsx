@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "./ui/Button";
 
 const stats = [
@@ -43,10 +44,14 @@ export function Hero() {
 
         {/* CTA buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-14">
-          <Button size="lg">무료로 시작하기</Button>
-          <Button size="lg" variant="ghost">
-            에이전트 둘러보기
-          </Button>
+          <Link href="#signup">
+            <Button size="lg">무료로 시작하기</Button>
+          </Link>
+          <Link href="#agents">
+            <Button size="lg" variant="ghost">
+              에이전트 둘러보기
+            </Button>
+          </Link>
         </div>
 
         {/* Stats */}

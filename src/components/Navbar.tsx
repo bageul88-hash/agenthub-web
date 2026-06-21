@@ -50,7 +50,7 @@ export function Navbar() {
           >
             <Search className="w-5 h-5" />
           </button>
-          <Link href="/creator/register">
+          <Link href="/#signup">
             <Button size="sm">무료로 시작</Button>
           </Link>
         </div>
@@ -79,7 +79,7 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link href="/creator/register" onClick={() => setMobileOpen(false)}>
+          <Link href="/#signup" onClick={() => setMobileOpen(false)}>
             <Button size="sm" className="mt-2 w-full justify-center">
               무료로 시작
             </Button>

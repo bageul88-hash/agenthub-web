@@ -43,6 +43,7 @@ export function SignupCTA() {
 
   return (
     <section
+      id="signup"
       className="py-16 md:py-20 bg-primary-light/40"
       aria-labelledby="signup-heading"
     >
