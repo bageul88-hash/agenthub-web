@@ -88,8 +88,9 @@ export function CreatorRegisterForm() {
         <CheckCircle2 className="w-14 h-14 text-teal" aria-hidden="true" />
         <h2 className="text-2xl font-bold text-ink">신청 완료!</h2>
         <p className="text-ink-sub text-sm leading-relaxed max-w-xs">
-          <strong className="text-primary">{form.email}</strong>으로 영업일 기준
-          2~3일 내 안내 이메일을 보내드릴게요.
+          접수가 완료됐습니다.{" "}
+          <strong className="text-primary">{form.email}</strong>으로
+          영업일 기준 2~3일 내 안내 드리겠습니다.
         </p>
       </div>
     );

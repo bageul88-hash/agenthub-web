@@ -89,8 +89,9 @@ export function ContestApplyForm() {
         <CheckCircle2 className="w-14 h-14 text-teal" aria-hidden="true" />
         <h2 className="text-2xl font-bold text-ink">참가 신청 완료!</h2>
         <p className="text-ink-sub text-sm leading-relaxed max-w-xs">
-          <strong className="text-primary">{form.email}</strong>으로 접수 확인 메일을
-          보내드릴게요. Build Challenge 2026에서 좋은 결과 기대합니다!
+          접수가 완료됐습니다.{" "}
+          <strong className="text-primary">{form.email}</strong>으로
+          결과 안내를 드릴게요. Build Challenge 2026에서 좋은 결과 기대합니다!
         </p>
       </div>
     );

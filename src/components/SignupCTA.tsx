@@ -53,9 +53,10 @@ export function SignupCTA() {
             <CheckCircle2 className="w-14 h-14 text-teal" aria-hidden="true" />
             <h2 className="text-2xl font-bold text-ink">사전등록 완료!</h2>
             <p className="text-ink-sub text-sm leading-relaxed">
-              <strong className="text-primary">{email}</strong>으로 오픈 소식을 보내드릴게요.
+              사전등록이 완료됐습니다.
               <br />
-              출시 시 첫 달 무료 + 얼리버드 혜택이 제공됩니다.
+              오픈 시 <strong className="text-primary">{email}</strong>으로
+              첫 달 무료 + 얼리버드 혜택을 안내 드릴게요.
             </p>
           </div>
         ) : (
