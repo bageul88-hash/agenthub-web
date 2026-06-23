@@ -23,8 +23,11 @@ interface Props {
   agents: Agent[];
 }
 
+const INITIAL_COUNT = 9;
+
 export function CategoryContent({ agents }: Props) {
   const [sort, setSort] = useState<SortKey>("popular");
+  const [showAll, setShowAll] = useState(false);
   const { handleCardClick, toastVisible } = useSignupCard();
 
   const sorted = useMemo(() => {
@@ -93,11 +96,23 @@ export function CategoryContent({ agents }: Props) {
       </div>
 
       {/* ── Agent grid ───────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {sorted.map((agent) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+        {(showAll ? sorted : sorted.slice(0, INITIAL_COUNT)).map((agent) => (
           <AgentCard key={agent.id} agent={agent} onClick={handleCardClick} />
         ))}
       </div>
+
+      {/* ── 더보기 버튼 ──────────────────────── */}
+      {!showAll && sorted.length > INITIAL_COUNT && (
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => setShowAll(true)}
+            className="inline-flex items-center gap-2 h-11 px-8 rounded-full border border-line text-sm font-medium text-ink-sub hover:border-primary hover:text-primary transition-all duration-150"
+          >
+            더보기 ({sorted.length - INITIAL_COUNT}개 더 보기)
+          </button>
+        </div>
+      )}
 
       <SignupToast visible={toastVisible} />
     </>
