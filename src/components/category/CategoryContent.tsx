@@ -4,7 +4,9 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Bot } from "lucide-react";
 import { AgentCard } from "@/components/ui/AgentCard";
+import { SignupToast } from "@/components/ui/SignupToast";
 import { Button } from "@/components/ui/Button";
+import { useSignupCard } from "@/hooks/useSignupCard";
 import type { Agent } from "@/lib/data";
 import { parsePriceKRW } from "@/lib/data";
 
@@ -23,6 +25,7 @@ interface Props {
 
 export function CategoryContent({ agents }: Props) {
   const [sort, setSort] = useState<SortKey>("popular");
+  const { handleCardClick, toastVisible } = useSignupCard();
 
   const sorted = useMemo(() => {
     const copy = [...agents];
@@ -92,12 +95,11 @@ export function CategoryContent({ agents }: Props) {
       {/* ── Agent grid ───────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {sorted.map((agent) => (
-          // TODO: replace href with /agent/[id] when detail page is ready
-          <Link key={agent.id} href="#" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl">
-            <AgentCard agent={agent} />
-          </Link>
+          <AgentCard key={agent.id} agent={agent} onClick={handleCardClick} />
         ))}
       </div>
+
+      <SignupToast visible={toastVisible} />
     </>
   );
 }

@@ -1,14 +1,25 @@
-import { Star, Users } from "lucide-react";
-import { Badge } from "./Badge";
-import type { Agent } from "@/lib/data";
+"use client"
+
+import { Star, Users } from "lucide-react"
+import { Badge } from "./Badge"
+import type { Agent } from "@/lib/data"
 
 interface AgentCardProps {
-  agent: Agent;
+  agent: Agent
+  onClick?: () => void
 }
 
-export function AgentCard({ agent }: AgentCardProps) {
+export function AgentCard({ agent, onClick }: AgentCardProps) {
   return (
-    <div className="bg-surface rounded-xl border border-line p-5 flex flex-col gap-3 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onClick?.()
+      }}
+      className="bg-surface rounded-xl border border-line p-5 flex flex-col gap-3 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+    >
       <div className="flex items-start justify-between gap-2">
         <Badge label={agent.category} variant="category" />
         {agent.badge && (
@@ -39,5 +50,5 @@ export function AgentCard({ agent }: AgentCardProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

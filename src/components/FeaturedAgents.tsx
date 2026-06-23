@@ -1,7 +1,13 @@
-import { featuredAgents } from "@/lib/data";
-import { AgentCard } from "./ui/AgentCard";
+"use client"
+
+import { featuredAgents } from "@/lib/data"
+import { AgentCard } from "./ui/AgentCard"
+import { SignupToast } from "./ui/SignupToast"
+import { useSignupCard } from "@/hooks/useSignupCard"
 
 export function FeaturedAgents() {
+  const { handleCardClick, toastVisible } = useSignupCard()
+
   return (
     <section
       id="agents"
@@ -26,10 +32,12 @@ export function FeaturedAgents() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {featuredAgents.map((agent) => (
-            <AgentCard key={agent.id} agent={agent} />
+            <AgentCard key={agent.id} agent={agent} onClick={handleCardClick} />
           ))}
         </div>
       </div>
+
+      <SignupToast visible={toastVisible} />
     </section>
-  );
+  )
 }
