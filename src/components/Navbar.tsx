@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Menu, X, Bot } from "lucide-react";
 import { Button } from "./ui/Button";
+import { AuthButton } from "./AuthButton";
 
 const navLinks = [
   { label: "에이전트", href: "/#agents" },
@@ -50,6 +51,7 @@ export function Navbar() {
           >
             <Search className="w-5 h-5" />
           </button>
+          <AuthButton />
           <Link href="/#signup">
             <Button size="sm">무료로 시작</Button>
           </Link>
@@ -79,8 +81,11 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <div className="mt-2">
+            <AuthButton />
+          </div>
           <Link href="/#signup" onClick={() => setMobileOpen(false)}>
-            <Button size="sm" className="mt-2 w-full justify-center">
+            <Button size="sm" className="w-full justify-center">
               무료로 시작
             </Button>
           </Link>
